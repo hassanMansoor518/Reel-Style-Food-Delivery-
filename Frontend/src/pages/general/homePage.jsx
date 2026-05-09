@@ -6,9 +6,12 @@ import axios from "axios";
 import BottomNavbar from "../../components/BottomNavbar";
 import AlertPopup from "../../components/AlertPopup";
 import LoginFirstModal from "../../components/LoginFirstModal";
+import TopNavbar from "../../components/TopNavbar";
 
 function Home() {
   const [videos, setVideos] = useState([]);
+  const [filteredVideos, setFilteredVideos] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const [alertShow, setAlertShow] = useState(false);
   const [alertMessage, setAlertMessage] = useState("");
   const [alertType, setAlertType] = useState("success");
@@ -16,14 +19,7 @@ function Home() {
   const navigate = useNavigate();
   const videoRefs = useRef([]);
 
-   
 
-  // 🚫 Not logged in → Show Login modal instead of Home screen
-  
-
- 
-
-  // Auto-play video scroll effect
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
@@ -40,7 +36,7 @@ function Home() {
     return () => {
       videoRefs.current.forEach((video) => video && observer.unobserve(video));
     };
-  }, [videos]);
+  }, [filteredVideos]);
 
   // Load Food Items
   useEffect(() => {
@@ -48,16 +44,26 @@ function Home() {
       .get("http://localhost:3001/api/food/", { withCredentials: true })
       .then((response) => {
         setVideos(response.data.foodItems);
+        setFilteredVideos(response.data.foodItems);
       })
       .catch((err) => {
-        if(err.response.status === 400){
-          navigate('/user/login-first');
+        if (err.response && err.response.status === 400) {
+          navigate("/user/login-first");
           return;
-
         }
         console.error("Error fetching food items:", err);
       });
   }, []);
+
+  // Search Filtering
+  useEffect(() => {
+    const filtered = videos.filter((video) =>
+      video.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      video.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      video.foodPartner?.contactName.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+    setFilteredVideos(filtered);
+  }, [searchQuery, videos]);
 
   // Add To Cart Function (with alert popup)
   const addToCart = async (foodId) => {
@@ -73,7 +79,7 @@ function Home() {
       setAlertType("success");
       setAlertMessage("Item added to cart!");
       setAlertShow(true);
-      
+
     } catch (err) {
       console.error("Add to cart error:", err);
 
@@ -84,28 +90,15 @@ function Home() {
   };
 
   return (
-    <div className="h-screen w-full bg-black flex flex-col">
+    <div className="h-screen w-full bg-black flex flex-col no-scrollbar">
       {/* TOP BAR */}
-      <div className="h-14 flex items-center gap-3 px-5 bg-black/50 backdrop-blur-md text-white fixed top-0 left-0 w-full z-30">
-        <h1 className="font-bold text-lg">DeliverNow</h1>
-        <div className="flex-1">
-          <div className="bg-white/20 rounded-full px-3 py-1 flex items-center gap-2">
-            <FiSearch />
-            <input
-              className="bg-transparent outline-none text-sm text-white placeholder-white w-full"
-              placeholder="Search food..."
-            />
-          </div>
-        </div>
-        <button onClick={() => navigate("/user/profile")}>
-          <FiUser className="text-2xl" />
-        </button>
-      </div>
+      <TopNavbar onSearch={setSearchQuery} />
 
       {/* VIDEO LIST */}
-      <div className="flex-1 mt-14 mb-14 snap-y snap-mandatory overflow-scroll">
-        {videos.map((video, index) => (
-          <div key={video._id} className="relative h-[calc(100vh-112px)] w-full snap-start">
+      <div className="flex-1 mt-14 mb-14 snap-y snap-mandatory overflow-scroll no-scrollbar">
+        {filteredVideos.length > 0 ? (
+          filteredVideos.map((video, index) => (
+            <div key={video._id} className="relative h-[calc(100vh-112px)] w-full snap-start">
             <video
               ref={(el) => (videoRefs.current[index] = el)}
               src={video.video}
@@ -156,13 +149,20 @@ function Home() {
             </div>
 
             <button
-              className="absolute bottom-12 right-4 bg-orange-500 text-white p-4 rounded-full shadow-xl text-xl active:scale-95 z-50"
+              className="absolute bottom-12 right-4 bg-orange-500 text-white p-4 rounded-full shadow-xl text-xl active:scale-[0.99] z-50 transition shadow-[0_8px_25px_rgba(255,123,0,0.3)]"
               onClick={() => addToCart(video._id)}
             >
               🛒
             </button>
           </div>
-        ))}
+        ))
+      ) : (
+        <div className="flex flex-col items-center justify-center h-full text-[#8E8E93]">
+          <FiSearch size={50} className="mb-4 opacity-20" />
+          <p className="text-lg font-medium">No results found for &quot;{searchQuery}&quot;</p>
+          <p className="text-sm opacity-60">Try searching for something else!</p>
+        </div>
+      )}
       </div>
 
       {/* BOTTOM NAVBAR */}
@@ -173,7 +173,7 @@ function Home() {
         show={alertShow}
         type={alertType}
         message={alertMessage}
-        
+
         onClose={() => setAlertShow(false)}
       />
     </div>

@@ -12,7 +12,7 @@ A full-stack food delivery web application built with the MERN stack, featuring 
 
 * 📱 **Mobile-First Design** – Optimized for mobile devices
 * 🎞️ **Reel-Style Browsing** – Vertical scroll to explore food items
-* 🛒 **Order Placement** – Select and place orders بسهولة
+* 🛒 **Order Placement** – Select and place orders 
 * 🔐 **Fake Payment System** – OTP-based demo payment (fixed OTP required)
 
 ### 🛠️ Admin Panel

@@ -24,34 +24,34 @@ const UserRegister = () => {
       { withCredentials: true }
     );
 
-    console.log(res.data);
-    navigate("/");
+    if (res.data.user && res.data.user._id) {
+      localStorage.setItem("userId", res.data.user._id);
+      window.location.href = "/";
+    }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fff7f3] px-4">
-      <div className="w-full max-w-md p-6 rounded-2xl bg-white border border-[#f6d7c8] shadow-lg">
+    <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center sm:py-12 px-0 sm:px-4">
+      <div className="w-full sm:w-[480px] min-h-screen sm:min-h-[auto] p-6 pt-12 sm:p-12 sm:rounded-[32px] bg-[#0D0D0D] sm:bg-[#1A1A1A] sm:border sm:border-white/5 shadow-2xl">
 
         {/* ---------------- ANIMATED SWITCH ---------------- */}
-        <div className="relative bg-[#fce8df] p-1 rounded-xl flex w-full mb-3">
+        <div className="relative bg-[#111111] p-1 rounded-2xl flex w-full mb-8 border border-white/5">
 
           {/* Sliding ball */}
           <div
-            className={`absolute top-[4px] h-[40px] w-[50%] rounded-xl bg-white shadow transition-all duration-300 ${
-              window.location.pathname.includes("food-partner")
+            className={`absolute top-[4px] h-[40px] w-[50%] rounded-xl bg-[#1A1A1A] border border-white/10 shadow transition-all duration-300 ${window.location.pathname.includes("food-partner")
                 ? "left-[50%]"
                 : "left-[4px]"
-            }`}
+              }`}
           ></div>
 
           {/* User button */}
           <Link
             to="/user/register"
-            className={`z-10 w-1/2 text-center py-2 rounded-xl font-semibold transition ${
-              window.location.pathname.includes("food-partner")
-                ? "text-[#3a241e]/60"
-                : "text-[#3a241e]"
-            }`}
+            className={`z-10 w-1/2 text-center py-2 rounded-xl font-semibold transition ${window.location.pathname.includes("food-partner")
+                ? "text-[#8E8E93]"
+                : "text-white"
+              }`}
           >
             User
           </Link>
@@ -59,11 +59,10 @@ const UserRegister = () => {
           {/* Partner button */}
           <Link
             to="/food-partner/register"
-            className={`z-10 w-1/2 text-center py-2 rounded-xl font-semibold transition ${
-              window.location.pathname.includes("food-partner")
-                ? "text-[#3a241e]"
-                : "text-[#3a241e]/60"
-            }`}
+            className={`z-10 w-1/2 text-center py-2 rounded-xl font-semibold transition ${window.location.pathname.includes("food-partner")
+                ? "text-white"
+                : "text-[#8E8E93]"
+              }`}
           >
             Partner
           </Link>
@@ -71,89 +70,91 @@ const UserRegister = () => {
         </div>
 
         {/* Title */}
-        <h1 className="text-2xl font-bold text-center text-[#3a241e] mt-4">
-          Create an Account
+        <h1 className="text-3xl font-bold text-center text-white mt-4">
+          Create Account
         </h1>
-        <p className="text-center text-gray-600 text-sm">
-          Let’s get you started!
+        <p className="text-center text-[#8E8E93] text-sm mt-2">
+          Join us and start ordering today!
         </p>
 
         {/* Form */}
-        <form className="mt-6 space-y-4" onSubmit={handelSubmit}>
-          
+        <form className="mt-8 space-y-5" onSubmit={handelSubmit}>
+
           <div className="relative">
-            <FiUser className="absolute left-3 top-3 text-gray-400 text-lg" />
+            <FiUser className="absolute left-4 top-4 text-[#8E8E93] text-lg" />
             <input
               type="text"
               name="fullName"
-              placeholder="Enter your full name"
+              placeholder="Full Name"
               required
-              className="w-full pl-10 p-3 rounded-xl bg-[#fff5f0] border border-[#f5d3c4] focus:border-orange-400 outline-none text-[#3a241e]"
+              className="w-full pl-12 p-4 rounded-2xl bg-[#111111] border border-white/5 focus:border-[#ff7b00]/50 outline-none text-white placeholder:text-white/20 transition"
             />
           </div>
 
           <div className="relative">
-            <FiMail className="absolute left-3 top-3 text-gray-400 text-lg" />
+            <FiMail className="absolute left-4 top-4 text-[#8E8E93] text-lg" />
             <input
               type="email"
               name="email"
-              placeholder="Enter your email address"
+              placeholder="Email Address"
               required
-              className="w-full pl-10 p-3 rounded-xl bg-[#fff5f0] border border-[#f5d3c4] focus:border-orange-400 outline-none text-[#3a241e]"
+              className="w-full pl-12 p-4 rounded-2xl bg-[#111111] border border-white/5 focus:border-[#ff7b00]/50 outline-none text-white placeholder:text-white/20 transition"
             />
           </div>
-        <div className="relative">
-            <FiUser className="absolute left-3 top-3 text-gray-400 text-lg" />
+          
+          <div className="relative">
+            <FiUser className="absolute left-4 top-4 text-[#8E8E93] text-lg" />
             <input
               type="text"
               name="PhoneNumber"
-              placeholder="Enter your phone number"
+              placeholder="Phone Number"
               required
-              className="w-full pl-10 p-3 rounded-xl bg-[#fff5f0] border border-[#f5d3c4] focus:border-orange-400 outline-none text-[#3a241e]"
+              className="w-full pl-12 p-4 rounded-2xl bg-[#111111] border border-white/5 focus:border-[#ff7b00]/50 outline-none text-white placeholder:text-white/20 transition"
             />
           </div>
 
           <div className="relative">
-            <FiUser className="absolute left-3 top-3 text-gray-400 text-lg" />
+            <FiUser className="absolute left-4 top-4 text-[#8E8E93] text-lg" />
             <input
               type="text"
               name="Address"
-              placeholder="Enter your address"
+              placeholder="Delivery Address"
               required
-              className="w-full pl-10 p-3 rounded-xl bg-[#fff5f0] border border-[#f5d3c4] focus:border-orange-400 outline-none text-[#3a241e]"
+              className="w-full pl-12 p-4 rounded-2xl bg-[#111111] border border-white/5 focus:border-[#ff7b00]/50 outline-none text-white placeholder:text-white/20 transition"
             />
           </div>
+          
           <div className="relative">
-            <FiLock className="absolute left-3 top-3 text-gray-400 text-lg" />
+            <FiLock className="absolute left-4 top-4 text-[#8E8E93] text-lg" />
             <input
               type="password"
               name="password"
-              placeholder="Enter your password"
+              placeholder="Password"
               required
-              className="w-full pl-10 p-3 rounded-xl bg-[#fff5f0] border border-[#f5d3c4] focus:border-orange-400 outline-none text-[#3a241e]"
+              className="w-full pl-12 p-4 rounded-2xl bg-[#111111] border border-white/5 focus:border-[#ff7b00]/50 outline-none text-white placeholder:text-white/20 transition"
             />
           </div>
 
           <button
             type="submit"
-            className="w-full bg-[#ff6b3d] hover:bg-[#e85d32] transition text-white py-3 rounded-xl font-semibold"
+            className="w-full h-14 bg-[#ff7b00] hover:bg-[#e66f00] transition text-white rounded-2xl font-semibold shadow-[0_12px_30px_rgba(255,123,0,0.2)] active:scale-[0.99]"
           >
             Create Account
           </button>
         </form>
 
         {/* Divider */}
-        <div className="flex items-center my-4">
-          <div className="flex-1 h-px bg-[#f1c9bc]"></div>
-          <span className="px-3 text-gray-500 text-sm">Or sign up with</span>
-          <div className="flex-1 h-px bg-[#f1c9bc]"></div>
+        <div className="flex items-center my-8">
+          <div className="flex-1 h-px bg-white/5"></div>
+          <span className="px-4 text-[#8E8E93] text-sm whitespace-nowrap">Or sign up with</span>
+          <div className="flex-1 h-px bg-white/5"></div>
         </div>
 
-    
+
         {/* Footer */}
-        <p className="text-center text-gray-600 text-sm mt-5">
+        <p className="text-center text-[#8E8E93] text-sm mt-6">
           Already have an account?{" "}
-          <Link to="/user/login" className="text-[#ff6b3d] font-medium hover:underline">
+          <Link to="/user/login" className="text-[#ff7b00] font-semibold hover:underline">
             Log in
           </Link>
         </p>

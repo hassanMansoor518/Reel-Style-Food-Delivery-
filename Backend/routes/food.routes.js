@@ -21,7 +21,6 @@ router.post(
 // GET ALL FOOD ITEMS
 router.get(
     "/",
-    authMiddleware.userMiddleware, // users can view all food items
     foodController.getFoodItem
 );
 

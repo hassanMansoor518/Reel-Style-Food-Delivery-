@@ -165,14 +165,14 @@ async function loginPartner(req, res) {
     email
   })
   if (!partner) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Invaid email or password"
     })
   }
   const isPasswordValid = await bcrypt.compare(password, partner.password)
 
   if (!isPasswordValid) {
-    res.status(400).json({
+    return res.status(400).json({
       message: "Invaid email or password"
     })
   }

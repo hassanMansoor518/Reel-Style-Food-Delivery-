@@ -14,7 +14,7 @@ export default function BottomNavbar() {
 
   const tabs = [
     { name: "Home", icon: <FiHome />, path: "/" },
-     { name: "Cart", icon: <FiShoppingCart />, path: "/cart" },
+    { name: "Cart", icon: <FiShoppingCart />, path: "/cart" },
     { name: "Orders", icon: <FiList />, path: "/orders" },
     { name: "Profile", icon: <FiUser />, path: "/user/profile" },
   ];
@@ -31,16 +31,14 @@ export default function BottomNavbar() {
           }}
         >
           <div
-            className={`text-xl transition-colors duration-300 ${
-              active === tab.path ? "text-orange-500" : "text-white"
-            }`}
+            className={`text-xl transition-colors duration-300 ${active === tab.path ? "text-orange-500" : "text-white"
+              }`}
           >
             {tab.icon}
           </div>
           <span
-            className={`text-xs transition-colors duration-300 ${
-              active === tab.path ? "text-orange-500" : "text-white"
-            }`}
+            className={`text-xs transition-colors duration-300 ${active === tab.path ? "text-orange-500" : "text-white"
+              }`}
           >
             {tab.name}
           </span>

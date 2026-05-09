@@ -26,8 +26,10 @@ const FoodPartnerRegister = () => {
         { withCredentials: true }
       );
 
-      console.log(res.data);
-      navigate("/food-partner/login");
+      if (res.data.partner && res.data.partner._id) {
+        localStorage.setItem("userId", res.data.partner._id);
+        window.location.href = `/food-partner/${res.data.partner._id}`;
+      }
     } catch (error) {
       console.error(
         "Registration error:",
@@ -37,26 +39,26 @@ const FoodPartnerRegister = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fff7f3] p-4">
-      <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl bg-white border border-[#f6d7c8] shadow-lg">
+    <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center sm:py-12 px-0 sm:px-4">
+      <div className="w-full sm:w-[520px] min-h-screen sm:min-h-[auto] p-6 pt-12 sm:p-12 sm:rounded-[32px] bg-[#0D0D0D] sm:bg-[#1A1A1A] sm:border sm:border-white/5 shadow-2xl">
         {/* Title */}
-        <h2 className="text-center text-2xl font-bold text-[#3a241e]">
+        <h2 className="text-center text-3xl font-bold text-white mt-2">
           {activeTab === "user" ? "User Sign Up" : "Partner Sign Up"}
         </h2>
-        <p className="text-center text-gray-600 text-sm mt-1">
+        <p className="text-center text-[#8E8E93] text-sm mt-2">
           {activeTab === "user"
             ? "Join us and explore amazing food."
             : "Join us and grow your restaurant business."}
         </p>
 
         {/* Toggle */}
-        <div className="flex justify-between w-full bg-[#fce8df] rounded-xl p-1 mt-4">
+        <div className="flex justify-between w-full bg-[#111111] border border-white/5 rounded-2xl p-1 mt-8">
           <button
             onClick={() => setActiveTab("user")}
             className={`w-1/2 py-2 rounded-xl font-semibold transition ${
               activeTab === "user"
-                ? "bg-white text-[#3a241e]"
-                : "text-[#3a241e] bg-transparent"
+                ? "bg-[#1A1A1A] text-white border border-white/10 shadow-sm"
+                : "text-[#8E8E93] bg-transparent"
             }`}
           >
             User
@@ -66,8 +68,8 @@ const FoodPartnerRegister = () => {
             onClick={() => setActiveTab("partner")}
             className={`w-1/2 py-2 rounded-xl font-semibold transition ${
               activeTab === "partner"
-                ? "bg-white text-[#3a241e]"
-                : "text-[#3a241e] bg-transparent"
+                ? "bg-[#1A1A1A] text-white border border-white/10 shadow-sm"
+                : "text-[#8E8E93] bg-transparent"
             }`}
           >
             Partner
@@ -76,84 +78,84 @@ const FoodPartnerRegister = () => {
 
         {/* Form */}
         {activeTab === "partner" && (
-          <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+          <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
             {/* Restaurant Name */}
             <div className="relative">
-              <FiUser className="absolute left-3 top-3 text-gray-400" />
+              <FiUser className="absolute left-4 top-4 text-[#8E8E93]" />
               <input
                 type="text"
                 name="restaurantName"
                 placeholder="Restaurant Name"
                 required
-                className="w-full pl-10 p-3 bg-[#fff5f0] border border-[#f5d3c4] text-[#3a241e] rounded-lg outline-none focus:border-orange-400"
+                className="w-full pl-12 p-4 bg-[#111111] border border-white/5 text-white rounded-2xl outline-none focus:border-[#ff7b00]/50 placeholder:text-white/20 transition"
               />
             </div>
 
             {/* Contact + Phone */}
             <div className="flex flex-col sm:flex-row gap-4">
               <div className="relative w-full sm:w-1/2">
-                <FiUser className="absolute left-3 top-3 text-gray-400" />
+                <FiUser className="absolute left-4 top-4 text-[#8E8E93]" />
                 <input
                   type="text"
                   name="contactName"
-                  placeholder="Contact Person"
+                  placeholder="Contact"
                   required
-                  className="w-full pl-10 p-3 bg-[#fff5f0] border border-[#f5d3c4] text-[#3a241e] rounded-lg outline-none focus:border-orange-400"
+                  className="w-full pl-12 p-4 bg-[#111111] border border-white/5 text-white rounded-2xl outline-none focus:border-[#ff7b00]/50 placeholder:text-white/20 transition"
                 />
               </div>
 
               <div className="relative w-full sm:w-1/2">
-                <FiPhone className="absolute left-3 top-3 text-gray-400" />
+                <FiPhone className="absolute left-4 top-4 text-[#8E8E93]" />
                 <input
                   type="text"
                   name="phone"
                   placeholder="Phone"
                   required
-                  className="w-full pl-10 p-3 bg-[#fff5f0] border border-[#f5d3c4] text-[#3a241e] rounded-lg outline-none focus:border-orange-400"
+                  className="w-full pl-12 p-4 bg-[#111111] border border-white/5 text-white rounded-2xl outline-none focus:border-[#ff7b00]/50 placeholder:text-white/20 transition"
                 />
               </div>
             </div>
 
             {/* Email */}
             <div className="relative">
-              <FiMail className="absolute left-3 top-3 text-gray-400" />
+              <FiMail className="absolute left-4 top-4 text-[#8E8E93]" />
               <input
                 type="email"
                 name="email"
                 placeholder="Business Email"
                 required
-                className="w-full pl-10 p-3 bg-[#fff5f0] border border-[#f5d3c4] text-[#3a241e] rounded-lg outline-none focus:border-orange-400"
+                className="w-full pl-12 p-4 bg-[#111111] border border-white/5 text-white rounded-2xl outline-none focus:border-[#ff7b00]/50 placeholder:text-white/20 transition"
               />
             </div>
 
             {/* Password */}
             <div className="relative">
-              <FiLock className="absolute left-3 top-3 text-gray-400" />
+              <FiLock className="absolute left-4 top-4 text-[#8E8E93]" />
               <input
                 type="password"
                 name="password"
                 placeholder="Create Password"
                 required
-                className="w-full pl-10 p-3 bg-[#fff5f0] border border-[#f5d3c4] text-[#3a241e] rounded-lg outline-none focus:border-orange-400"
+                className="w-full pl-12 p-4 bg-[#111111] border border-white/5 text-white rounded-2xl outline-none focus:border-[#ff7b00]/50 placeholder:text-white/20 transition"
               />
             </div>
 
             {/* Address */}
             <div className="relative">
-              <FiMapPin className="absolute left-3 top-3 text-gray-400" />
+              <FiMapPin className="absolute left-4 top-4 text-[#8E8E93]" />
               <input
                 type="text"
                 name="address"
                 placeholder="Restaurant Address"
                 required
-                className="w-full pl-10 p-3 bg-[#fff5f0] border border-[#f5d3c4] text-[#3a241e] rounded-lg outline-none focus:border-orange-400"
+                className="w-full pl-12 p-4 bg-[#111111] border border-white/5 text-white rounded-2xl outline-none focus:border-[#ff7b00]/50 placeholder:text-white/20 transition"
               />
             </div>
 
             {/* Submit Button */}
             <button
               type="submit"
-              className="w-full bg-[#ff6b3d] hover:bg-[#e85d32] text-white py-3 rounded-lg font-semibold transition"
+              className="w-full h-14 bg-[#ff7b00] hover:bg-[#e66f00] text-white rounded-2xl font-semibold shadow-[0_12px_30px_rgba(255,123,0,0.2)] active:scale-[0.99] transition mt-2"
             >
               Create Partner Account
             </button>
@@ -161,11 +163,11 @@ const FoodPartnerRegister = () => {
         )}
 
         {activeTab === "user" && (
-          <p className="text-center mt-6 text-gray-600">
+          <p className="text-center mt-10 text-[#8E8E93]">
             Redirect to{" "}
             <Link
               to="/user/register"
-              className="text-[#ff6b3d] hover:underline"
+              className="text-[#ff7b00] font-semibold hover:underline"
             >
               User Registration
             </Link>
@@ -174,11 +176,11 @@ const FoodPartnerRegister = () => {
 
         {/* Footer */}
         {activeTab === "partner" && (
-          <p className="text-center text-gray-600 text-sm mt-4">
+          <p className="text-center text-[#8E8E93] text-sm mt-8">
             Already a partner?{" "}
             <Link
               to="/food-partner/login"
-              className="text-[#ff6b3d] hover:underline"
+              className="text-[#ff7b00] font-semibold hover:underline"
             >
               Sign in
             </Link>

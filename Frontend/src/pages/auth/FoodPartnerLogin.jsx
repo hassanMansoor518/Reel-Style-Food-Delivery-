@@ -36,7 +36,8 @@ const FoodPartnerLogin = () => {
         return;
       }
 
-      navigate(`/food-partner/${partnerId}`);
+      localStorage.setItem("userId", partnerId);
+      window.location.href = `/food-partner/${partnerId}`;
     } catch (err) {
       setError(err.response?.data?.message || err.message);
     }
@@ -44,57 +45,64 @@ const FoodPartnerLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-[#fff7f3] p-4">
-      <div className="w-full max-w-md p-6 sm:p-8 rounded-2xl bg-white border border-[#f6d7c8] shadow-lg">
-        <h1 className="text-xl sm:text-2xl font-semibold text-center text-[#3a241e]">
-          Food Partner Login
+    <div className="min-h-screen bg-[#0D0D0D] flex items-center justify-center sm:py-12 px-0 sm:px-4">
+      <div className="w-full sm:w-[450px] min-h-screen sm:min-h-[auto] p-6 pt-12 sm:p-12 sm:rounded-[32px] bg-[#0D0D0D] sm:bg-[#1A1A1A] sm:border sm:border-white/5 shadow-2xl">
+        <h1 className="text-3xl font-bold text-center text-white mt-2">
+          Partner Login
         </h1>
+        <p className="text-center text-[#8E8E93] text-sm mt-2">
+          Access your restaurant dashboard
+        </p>
 
-        {error && <p className="text-red-500 text-center mt-2">{error}</p>}
+        {error && (
+          <p className="mt-6 rounded-2xl bg-red-900/40 px-4 py-3 text-sm text-red-200">
+            {error}
+          </p>
+        )}
 
-        <form className="mt-6 space-y-4" onSubmit={handleSubmit}>
+        <form className="mt-8 space-y-5" onSubmit={handleSubmit}>
           <div className="relative">
-            <FiMail className="absolute left-3 top-3 text-gray-400" />
+            <FiMail className="absolute left-4 top-4 text-[#8E8E93]" />
             <input
               id="email"
               name="email"
               type="email"
               required
               placeholder="Email address"
-              className="w-full pl-10 p-3 bg-[#fff5f0] border border-[#f5d3c4] text-[#3a241e] rounded-lg outline-none focus:border-orange-400"
+              className="w-full pl-12 p-4 bg-[#111111] border border-white/5 text-white rounded-2xl outline-none focus:border-[#ff7b00]/50 placeholder:text-white/20 transition"
             />
           </div>
 
           <div className="relative">
-            <FiLock className="absolute left-3 top-3 text-gray-400" />
+            <FiLock className="absolute left-4 top-4 text-[#8E8E93]" />
             <input
               id="password"
               name="password"
               type="password"
               required
               placeholder="Password"
-              className="w-full pl-10 p-3 bg-[#fff5f0] border border-[#f5d3c4] text-[#3a241e] rounded-lg outline-none focus:border-orange-400"
+              className="w-full pl-12 p-4 bg-[#111111] border border-white/5 text-white rounded-2xl outline-none focus:border-[#ff7b00]/50 placeholder:text-white/20 transition"
             />
           </div>
 
           <button
             type="submit"
             disabled={loading}
-            className={`w-full py-3 rounded-lg font-semibold transition text-white ${
+            className={`w-full h-14 rounded-2xl font-semibold transition text-white shadow-[0_12px_30px_rgba(255,123,0,0.2)] active:scale-[0.99] ${
               loading
-                ? "bg-gray-400 cursor-not-allowed"
-                : "bg-[#ff6b3d] hover:bg-[#e85d32]"
+                ? "bg-gray-700 cursor-not-allowed"
+                : "bg-[#ff7b00] hover:bg-[#e66f00]"
             }`}
           >
-            {loading ? "Signing in..." : "Sign in"}
+            {loading ? "Signing in..." : "Login"}
           </button>
         </form>
 
-        <p className="text-center text-gray-600 text-sm mt-4">
+        <p className="text-center text-[#8E8E93] text-sm mt-8">
           Don't have a partner account?{" "}
           <Link
             to="/food-partner/register"
-            className="text-[#ff6b3d] hover:underline"
+            className="text-[#ff7b00] font-semibold hover:underline"
           >
             Sign up
           </Link>
