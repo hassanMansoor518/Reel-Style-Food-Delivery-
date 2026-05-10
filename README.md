@@ -63,17 +63,18 @@ A premium, high-fidelity food delivery platform featuring a cinematic **Reel-Sty
 ## 📸 Visuals
 
 <img width="1877" height="906" alt="image" src="https://github.com/user-attachments/assets/091df681-2c80-40a2-91d1-0a9463b0f727" />
-<div>
-   <img width="252" height="517" alt="image" src="https://github.com/user-attachments/assets/04b2a4da-415d-4ba8-9103-128b13aff814" />
-<img width="453" height="803" alt="image" src="https://github.com/user-attachments/assets/59052c9d-62aa-4443-a062-3d31c33e78c5" />
-<img width="452" height="813" alt="image" src="https://github.com/user-attachments/assets/f20866f4-82c2-4ed2-89c5-3082ec642c3a" />
-<img width="452" height="801" alt="image" src="https://github.com/user-attachments/assets/c8b06963-e46a-4488-ba50-8ddf48d11a89" />
-<img width="447" height="801" alt="image" src="https://github.com/user-attachments/assets/477889b3-f21b-43ef-bb63-4da700911688" />
-<img width="455" height="802" alt="image" src="https://github.com/user-attachments/assets/3b0bcb11-eab9-47f2-80c8-8156418dd901" />
-<img width="451" height="806" alt="image" src="https://github.com/user-attachments/assets/ca72568b-b7f4-4197-a52b-7d2dffa88cd5" />
-<img width="236" height="591" alt="image" src="https://github.com/user-attachments/assets/29df1f06-d92c-4f24-957d-34259032a368" />
-<img width="283" height="696" alt="image" src="https://github.com/user-attachments/assets/938c0391-1b27-48c7-93c1-2abd437b623b" />
-<img width="282" height="687" alt="image" src="https://github.com/user-attachments/assets/5838b77b-0cd4-411c-8aba-06cef5096c3e" />
+<div style="display:flex; flex-wrap:wrap; gap:12px; align-items:flex-start;">
+
+  <img src="https://github.com/user-attachments/assets/04b2a4da-415d-4ba8-9103-128b13aff814" width="220" />
+  <img src="https://github.com/user-attachments/assets/59052c9d-62aa-4443-a062-3d31c33e78c5" width="220" />
+  <img src="https://github.com/user-attachments/assets/f20866f4-82c2-4ed2-89c5-3082ec642c3a" width="220" />
+  <img src="https://github.com/user-attachments/assets/c8b06963-e46a-4488-ba50-8ddf48d11a89" width="220" />
+  <img src="https://github.com/user-attachments/assets/477889b3-f21b-43ef-bb63-4da700911688" width="220" />
+  <img src="https://github.com/user-attachments/assets/3b0bcb11-eab9-47f2-80c8-8156418dd901" width="220" />
+  <img src="https://github.com/user-attachments/assets/ca72568b-b7f4-4197-a52b-7d2dffa88cd5" width="220" />
+  <img src="https://github.com/user-attachments/assets/29df1f06-d92c-4f24-957d-34259032a368" width="220" />
+  <img src="https://github.com/user-attachments/assets/938c0391-1b27-48c7-93c1-2abd437b623b" width="220" />
+  <img src="https://github.com/user-attachments/assets/5838b77b-0cd4-411c-8aba-06cef5096c3e" width="220" />
 
 </div>
 
