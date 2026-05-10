@@ -13,6 +13,11 @@ router.get("/profile/:id",
      authMiddleware.userMiddleware,
     foodPartnerController.getFoodPartnerById
 )
+
+router.put("/update/:id",
+    authMiddleware.foodPartnerMiddleware,
+    foodPartnerController.updateFoodPartner
+)
 module.exports = router;
 // /api/food-partner/:id
 // /api/food-partner/profile/:id

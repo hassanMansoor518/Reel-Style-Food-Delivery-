@@ -31,6 +31,37 @@ async function getFoodPartnerById(req, res) {
   }
 }
 
+async function updateFoodPartner(req, res) {
+  try {
+    const foodPartnerId = req.params.id;
+    const { contactName, phone, address, banner, logo } = req.body;
+
+    if (!foodPartnerId || !foodPartnerId.match(/^[0-9a-fA-F]{24}$/)) {
+      return res.status(400).json({ message: "Invalid FoodPartner ID" });
+    }
+
+    const updatedPartner = await partnerModel.findByIdAndUpdate(
+      foodPartnerId,
+      { contactName, phone, address, banner, logo },
+      { new: true }
+    );
+
+    if (!updatedPartner) {
+      return res.status(404).json({ message: "Food partner not found" });
+    }
+
+    res.status(200).json({
+      message: "Profile updated successfully",
+      foodPartner: updatedPartner
+    });
+
+  } catch (error) {
+    console.error("Error in updateFoodPartner:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+}
+
 module.exports = {
-  getFoodPartnerById
+  getFoodPartnerById,
+  updateFoodPartner
 };

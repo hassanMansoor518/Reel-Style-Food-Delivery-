@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState, useMemo } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import { ArrowLeft, UploadCloud, Star } from "lucide-react";
 
 const UploadNewFood = ({ editMode }) => {
-  const { id } = useParams(); // foodId for edit mode
+  const { id } = useParams();
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [price, setPrice] = useState("");
@@ -12,17 +13,22 @@ const UploadNewFood = ({ editMode }) => {
   const [videoURL, setVideoURL] = useState("");
   const [fileError, setFileError] = useState("");
   const [loading, setLoading] = useState(false);
+
   const fileInputRef = useRef(null);
   const navigate = useNavigate();
 
-  // Fetch existing food data in edit mode
+  // FETCH EXISTING DATA
   useEffect(() => {
     if (editMode && id) {
       setLoading(true);
+
       axios
-        .get(`http://localhost:3001/api/food/${id}`, { withCredentials: true })
+        .get(`http://localhost:3001/api/food/${id}`, {
+          withCredentials: true,
+        })
         .then((res) => {
           const food = res.data.food;
+
           setName(food.name);
           setDescription(food.description);
           setPrice(food.price);
@@ -34,21 +40,26 @@ const UploadNewFood = ({ editMode }) => {
     }
   }, [editMode, id]);
 
-  // Preview video
+  // VIDEO PREVIEW
   useEffect(() => {
     if (!videoFile) return;
+
     const url = URL.createObjectURL(videoFile);
     setVideoURL(url);
+
     return () => URL.revokeObjectURL(url);
   }, [videoFile]);
 
   const onFileChange = (e) => {
     const file = e.target.files?.[0];
+
     if (!file) return;
+
     if (!file.type.startsWith("video/")) {
       setFileError("Please select a valid video file.");
       return;
     }
+
     setFileError("");
     setVideoFile(file);
   };
@@ -57,35 +68,52 @@ const UploadNewFood = ({ editMode }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
+
     setLoading(true);
 
     try {
       const formData = new FormData();
+
       formData.append("name", name);
       formData.append("description", description);
       formData.append("price", price);
       formData.append("rating", rating);
-      if (videoFile) formData.append("video", videoFile);
+
+      if (videoFile) {
+        formData.append("video", videoFile);
+      }
 
       if (editMode && id) {
-        // UPDATE existing food
-        await axios.put(`http://localhost:3001/api/food/${id}`, formData, {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        await axios.put(
+          `http://localhost:3001/api/food/${id}`,
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
         alert("Food item updated successfully!");
       } else {
-        // CREATE new food
-        const response = await axios.post(`http://localhost:3001/api/food`, formData, {
-          withCredentials: true,
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        const response = await axios.post(
+          `http://localhost:3001/api/food`,
+          formData,
+          {
+            withCredentials: true,
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
         alert("Food item created successfully!");
+
         navigate(`/food-partner/${response.data.food.foodPartner}`);
         return;
       }
 
-      // Go back to food partner profile
       navigate(-1);
     } catch (err) {
       console.error(err);
@@ -95,86 +123,176 @@ const UploadNewFood = ({ editMode }) => {
     }
   };
 
-  const isDisabled = useMemo(() => !name.trim() || (!videoFile && !videoURL), [name, videoFile, videoURL]);
+  const isDisabled = useMemo(
+    () => !name.trim() || (!videoFile && !videoURL),
+    [name, videoFile, videoURL]
+  );
 
   return (
-    <div className="min-h-screen bg-[#1a0f0a] flex justify-center p-4 relative">
+    <div className="min-h-screen bg-[#050505] flex justify-center px-4 py-8">
+      {/* LOADER */}
       {loading && (
-        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50">
-          <div className="w-12 h-12 border-4 border-orange-400 border-t-transparent rounded-full animate-spin"></div>
+        <div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center">
+          <div className="w-14 h-14 rounded-full border-4 border-[#ff7a00] border-t-transparent animate-spin"></div>
         </div>
       )}
 
-      <div className="w-full max-w-lg bg-[#2a1a14] rounded-3xl p-6 shadow-xl border border-[#3c261f]">
-        <header className="flex items-center gap-3 mb-6">
-          <button onClick={() => navigate(-1)} className="text-white text-2xl">←</button>
-          <h1 className="text-xl font-semibold text-white">
-            {editMode ? "Edit Food Item" : "Upload New Food"}
-          </h1>
+      {/* MAIN CARD */}
+      <div className="w-full max-w-lg bg-[#111111] border border-white/5 rounded-[34px] p-6 shadow-[0_0_50px_rgba(255,122,0,0.08)]">
+        {/* HEADER */}
+        <header className="flex items-center gap-4 mb-8">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-11 h-11 rounded-full bg-[#1A1A1A] border border-white/10 flex items-center justify-center text-white hover:bg-[#222222] transition"
+          >
+            <ArrowLeft size={20} />
+          </button>
+
+          <div>
+            <h1 className="text-2xl font-bold text-white">
+              {editMode ? "Edit Food Item" : "Upload New Food"}
+            </h1>
+
+            <p className="text-[#8E8E93] text-sm mt-1">
+              Create premium food reels for customers
+            </p>
+          </div>
         </header>
 
-        {/* Video Upload */}
+        {/* VIDEO UPLOAD */}
         <div
-          className="border-2 border-dashed border-[#6d4b3f] rounded-xl p-6 text-center cursor-pointer bg-[#3a241e] hover:bg-[#4a2c24] transition"
           onClick={openFileDialog}
+          className="relative overflow-hidden rounded-[28px] border border-dashed border-[#ff7a00]/30 bg-[#0D0D0D] p-8 text-center cursor-pointer hover:border-[#ff7a00] hover:bg-[#121212] transition-all duration-300"
         >
-          <p className="text-white text-lg font-medium mb-1">Upload Vertical Video</p>
-          <p className="text-[#c7a99a] text-sm mb-4">
-            Tap to select a video of your food item. This will be shown as a food reel.
+          <div className="w-20 h-20 rounded-full bg-[#ff7a00]/10 border border-[#ff7a00]/20 flex items-center justify-center mx-auto mb-5">
+            <UploadCloud size={34} className="text-[#ff7a00]" />
+          </div>
+
+          <h2 className="text-white text-lg font-semibold">
+            Upload Vertical Food Video
+          </h2>
+
+          <p className="text-[#8E8E93] text-sm mt-2 max-w-xs mx-auto leading-relaxed">
+            Showcase your food with premium reels experience for users.
           </p>
-          <button className="px-5 py-2 rounded-full bg-[#d7a278] text-black font-semibold">
+
+          <button className="mt-6 px-6 py-3 rounded-full bg-[#ff7a00] hover:bg-[#ff8800] text-black font-bold transition-all duration-300 shadow-[0_0_30px_rgba(255,122,0,0.35)]">
             Select Video
           </button>
-          <input ref={fileInputRef} type="file" accept="video/*" className="hidden" onChange={onFileChange} />
+
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="video/*"
+            className="hidden"
+            onChange={onFileChange}
+          />
         </div>
 
-        {videoFile || videoURL ? (
-          <div className="mt-4">
-            <video src={videoURL} controls className="rounded-xl w-full border border-[#5b3a2f]" />
-          </div>
-        ) : null}
+        {/* ERROR */}
+        {fileError && (
+          <p className="text-red-400 text-sm mt-3">{fileError}</p>
+        )}
 
-        {/* Form */}
-        <form onSubmit={onSubmit} className="mt-6 flex flex-col gap-5">
-          <input
-            type="text"
-            placeholder="Food Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="w-full bg-[#3a241e] border border-[#5b3a2f] focus:border-orange-400 transition rounded-xl px-4 py-3 text-white placeholder-[#a6887b]"
-            required
-          />
-          <input
-            type="text"
-            placeholder="Price"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            className="w-full bg-[#3a241e] border border-[#5b3a2f] focus:border-orange-400 transition rounded-xl px-4 py-3 text-white placeholder-[#a6887b]"
-          />
-          <input
-            type="text"
-            placeholder="Rating"
-            value={rating}
-            onChange={(e) => setRating(e.target.value)}
-            className="w-full bg-[#3a241e] border border-[#5b3a2f] focus:border-orange-400 transition rounded-xl px-4 py-3 text-white placeholder-[#a6887b]"
-          />
-          <textarea
-            rows={3}
-            placeholder="Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="w-full bg-[#3a241e] border border-[#5b3a2f] focus:border-orange-400 transition rounded-xl px-4 py-3 text-white placeholder-[#a6887b]"
-          />
+        {/* VIDEO PREVIEW */}
+        {(videoFile || videoURL) && (
+          <div className="mt-5 overflow-hidden rounded-[28px] border border-white/10">
+            <video
+              src={videoURL}
+              controls
+              className="w-full h-[400px] object-cover bg-black"
+            />
+          </div>
+        )}
+
+        {/* FORM */}
+        <form onSubmit={onSubmit} className="mt-7 space-y-5">
+          {/* FOOD NAME */}
+          <div>
+            <label className="text-sm text-[#b0b0b0] mb-2 block">
+              Food Name
+            </label>
+
+            <input
+              type="text"
+              placeholder="e.g. Zinger Burger"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="w-full bg-[#1A1A1A] border border-white/10 focus:border-[#ff7a00] focus:ring-2 focus:ring-[#ff7a00]/20 rounded-2xl px-5 py-4 text-white placeholder:text-[#666] outline-none transition"
+              required
+            />
+          </div>
+
+          {/* PRICE */}
+          <div>
+            <label className="text-sm text-[#b0b0b0] mb-2 block">
+              Price
+            </label>
+
+            <input
+              type="text"
+              placeholder="Rs. 899"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="w-full bg-[#1A1A1A] border border-white/10 focus:border-[#ff7a00] focus:ring-2 focus:ring-[#ff7a00]/20 rounded-2xl px-5 py-4 text-white placeholder:text-[#666] outline-none transition"
+            />
+          </div>
+
+          {/* RATING */}
+          <div>
+            <label className="text-sm text-[#b0b0b0] mb-2 block">
+              Rating
+            </label>
+
+            <div className="relative">
+              <Star
+                size={18}
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-[#ffb347]"
+              />
+
+              <input
+                type="text"
+                placeholder="4.9"
+                value={rating}
+                onChange={(e) => setRating(e.target.value)}
+                className="w-full pl-11 bg-[#1A1A1A] border border-white/10 focus:border-[#ff7a00] focus:ring-2 focus:ring-[#ff7a00]/20 rounded-2xl px-5 py-4 text-white placeholder:text-[#666] outline-none transition"
+              />
+            </div>
+          </div>
+
+          {/* DESCRIPTION */}
+          <div>
+            <label className="text-sm text-[#b0b0b0] mb-2 block">
+              Description
+            </label>
+
+            <textarea
+              rows={4}
+              placeholder="Describe your food item..."
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              className="w-full bg-[#1A1A1A] border border-white/10 focus:border-[#ff7a00] focus:ring-2 focus:ring-[#ff7a00]/20 rounded-2xl px-5 py-4 text-white placeholder:text-[#666] outline-none transition resize-none"
+            />
+          </div>
+
+          {/* SUBMIT BUTTON */}
           <button
             type="submit"
             disabled={isDisabled || loading}
-            className={`w-full py-3 rounded-xl text-white font-semibold text-lg transition flex justify-center
-              ${isDisabled || loading ? "bg-gray-600" : "bg-orange-500 hover:bg-orange-600"}
+            className={`w-full py-4 rounded-2xl font-bold text-lg transition-all duration-300 flex justify-center items-center
+              ${isDisabled || loading
+                ? "bg-[#2a2a2a] text-[#777]"
+                : "bg-[#ff7a00] hover:bg-[#ff8800] text-black shadow-[0_0_35px_rgba(255,122,0,0.35)] active:scale-[0.98]"
+              }
             `}
           >
             {loading ? (
-              <span className="w-6 h-6 border-4 border-white border-t-transparent rounded-full animate-spin"></span>
-            ) : editMode ? "Update Food Item" : "Upload Food"}
+              <span className="w-6 h-6 rounded-full border-4 border-black border-t-transparent animate-spin"></span>
+            ) : editMode ? (
+              "Update Food Item"
+            ) : (
+              "Upload Food"
+            )}
           </button>
         </form>
       </div>
@@ -183,4 +301,3 @@ const UploadNewFood = ({ editMode }) => {
 };
 
 export default UploadNewFood;
-

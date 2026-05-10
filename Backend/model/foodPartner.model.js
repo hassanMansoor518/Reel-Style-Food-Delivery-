@@ -22,9 +22,17 @@ const partnerSchema = new mongoose.Schema({
         type: String,
         require: true
     },
-      address: {
+    address: {
         type: String,
         required: true
+    },
+    banner: {
+        type: String,
+        default: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?q=80&w=1400&auto=format&fit=crop"
+    },
+    logo: {
+        type: String,
+        default: "👨‍🍳"
     },
     lat: { type: Number, default: 24.9372 },
     lng: { type: Number, default: 67.0423 },
