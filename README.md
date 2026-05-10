@@ -62,8 +62,7 @@ A premium, high-fidelity food delivery platform featuring a cinematic **Reel-Sty
 
 ## 📸 Visuals
 
-> [!TIP]
-> This project utilizes a specialized **Design System** located in `src/theme` and `src/components/common`.
+<img width="1877" height="906" alt="image" src="https://github.com/user-attachments/assets/091df681-2c80-40a2-91d1-0a9463b0f727" />
 
 ---
 
