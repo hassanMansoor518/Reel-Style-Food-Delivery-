@@ -69,6 +69,7 @@ A premium, high-fidelity food delivery platform featuring a cinematic **Reel-Sty
   <img src="https://github.com/user-attachments/assets/709e6131-5b65-40a3-9602-2f5c804dfeca" width="230" />
   <img src="https://github.com/user-attachments/assets/0b4378cb-aa38-48b2-bbad-ecdcb836f08b" width="230" />
   <img src="https://github.com/user-attachments/assets/cb36b599-6559-4726-9614-af1fe9400e1e" width="230" />
+  <img src="https://github.com/user-attachments/assets/0c053505-fe72-4e2d-b080-0ae67b7bd572" width="230" />
   <img src="https://github.com/user-attachments/assets/5df3e2b1-d1e3-4531-a9d5-bf75ce6ea1c2" width="230" />
   <img src="https://github.com/user-attachments/assets/7d061c06-0ed4-49fb-adb0-023cb1ec91d5" width="230" />
   <img src="https://github.com/user-attachments/assets/938c0391-1b27-48c7-93c1-2abd437b623b" width="230" />
