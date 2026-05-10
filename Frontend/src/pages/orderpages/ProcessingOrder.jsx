@@ -38,7 +38,7 @@ export default function ProcessingOrder() {
 
         if (backendStatus === "Confirmed") setStatus("success");
         else if (backendStatus === "failed") setStatus("fail");
-        
+
       } catch (err) {
         console.error("Order status error:", err.response?.data || err.message);
         setStatus("fail");
@@ -52,7 +52,7 @@ export default function ProcessingOrder() {
   useEffect(() => {
     if (progress < 90) return;
 
-    if (status === "success") navigate("/order-confirmation");
+    if (status === "success") navigate(`/order-confirmation/${orderId}`);
     else if (status === "fail") navigate("/order-failed");
   }, [status, progress, navigate]);
 
@@ -76,15 +76,15 @@ export default function ProcessingOrder() {
         {status === "pending"
           ? "Processing your order…"
           : status === "success"
-          ? "Order Confirmed!"
-          : "Order Failed!"}
+            ? "Order Confirmed!"
+            : "Order Failed!"}
       </h2>
       <p className="text-gray-300 text-sm mt-1 text-center">
         {status === "pending"
           ? "Please wait while we confirm your payment."
           : status === "success"
-          ? "Your order has been confirmed with the restaurant."
-          : "Something went wrong. Please try again."}
+            ? "Your order has been confirmed with the restaurant."
+            : "Something went wrong. Please try again."}
       </p>
 
       <div className="w-64 h-2 bg-[#3a2b25] rounded-full overflow-hidden mt-6">

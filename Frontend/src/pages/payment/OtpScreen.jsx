@@ -19,7 +19,7 @@ export default function OtpScreen() {
   // ---------------------------
   // SEND OTP API CALL
   // ---------------------------
-  
+
   const sendOtp = async () => {
     try {
       setError("");

@@ -44,12 +44,35 @@ const FoodPartnerProfile = () => {
     }
   };
 
+  const handleLogout = async () => {
+    try {
+      await axios.get("http://localhost:3001/api/auth/partner/logout", {
+        withCredentials: true,
+      });
+    } catch (err) {
+      console.error("Partner logout failed:", err);
+    } finally {
+      localStorage.removeItem("userId");
+      window.location.href = "/food-partner/login";
+    }
+  };
+
   return (
     <div className="min-h-screen bg-[#2a1a14] p-4">
       {/* ❖ Food Partner Header */}
       <div className="bg-[#3a241e] rounded-2xl shadow-md p-6 mb-6 border border-[#5b3a2f] text-white">
-        <h1 className="text-3xl font-bold">{profile.contactName}</h1>
-        <p className="text-[#d3b8a1] mb-4">Food Partner Dashboard</p>
+        <div className="flex justify-between items-start">
+          <div>
+            <h1 className="text-3xl font-bold">{profile.contactName}</h1>
+            <p className="text-[#d3b8a1] mb-4">Food Partner Dashboard</p>
+          </div>
+          <button
+            onClick={handleLogout}
+            className="px-4 py-2 bg-red-500/10 hover:bg-red-500 text-red-500 hover:text-white border border-red-500/20 rounded-xl transition-all text-sm font-semibold"
+          >
+            Logout
+          </button>
+        </div>
         <div className="flex flex-col gap-2 text-[#d3b8a1]">
           <p className="flex items-center gap-2"><FiMail /> {profile.email}</p>
           <p className="flex items-center gap-2"><FiPhone /> {profile.phone || "N/A"}</p>

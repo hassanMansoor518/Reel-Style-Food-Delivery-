@@ -7,6 +7,7 @@ const foodPartnerRoutes = require("./routes/food-partner.routes")
 const paymentRoute = require("./routes/payment.routes");
 const cartRoutes = require("./routes/cart.routes");
 const otpRoutes = require("./routes/otp.routes")
+const notificationRoutes = require("./routes/notification.routes");
 
 
 const cors = require("cors")
@@ -27,6 +28,7 @@ app.use("/api/cart", cartRoutes);
 
 app.use("/api/payment", paymentRoute);
 app.use("/api/order", otpRoutes);
+app.use("/api/notifications", notificationRoutes);
 
 
 

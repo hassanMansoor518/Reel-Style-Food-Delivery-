@@ -20,21 +20,27 @@ export default function OrdersScreen() {
     return null;
   };
 
-  // Enrich orders with expiresAt when possible
+  // Enrich orders with expiresAt and determine initial type
   const enrichOrders = (rawOrders = []) => {
     return rawOrders.map((o) => {
-      if (o.expiresAt && typeof o.expiresAt === "number") return { ...o };
-
+      let expiresAt = o.expiresAt;
       const etaFromField = parseEtaToMinutes(o.eta) ?? parseEtaToMinutes(o.etaMinutes);
 
-      if (o.createdAt && etaFromField != null && !isNaN(new Date(o.createdAt).getTime())) {
-        const createdMs = new Date(o.createdAt).getTime();
-        const expiresAt = createdMs + etaFromField * 60_000;
-        return { ...o, expiresAt };
+      if (!expiresAt) {
+        if (o.createdAt && etaFromField != null && !isNaN(new Date(o.createdAt).getTime())) {
+          const createdMs = new Date(o.createdAt).getTime();
+          expiresAt = createdMs + etaFromField * 60_000;
+        } else if (etaFromField != null) {
+          expiresAt = Date.now() + etaFromField * 60_000;
+        }
       }
 
-      if (etaFromField != null && !o.expiresAt) {
-        return { ...o, expiresAt: Date.now() + etaFromField * 60_000 };
+      if (expiresAt) {
+        const remainingMs = expiresAt - Date.now();
+        if (remainingMs <= 0) {
+          return { ...o, expiresAt, remainingMs: 0, status: "Delivered", type: "past" };
+        }
+        return { ...o, expiresAt, remainingMs, type: "ongoing" };
       }
 
       return { ...o };
@@ -94,7 +100,7 @@ export default function OrdersScreen() {
                 else status = "On the Way";
               }
             }
-          } catch (e) {}
+          } catch (e) { }
 
           return { ...order, remainingMs, status };
         })
@@ -135,22 +141,20 @@ export default function OrdersScreen() {
         <div className="flex mt-6 bg-[#1A1A1A] p-1 rounded-full">
           <button
             onClick={() => setActiveTab("ongoing")}
-            className={`flex-1 py-2 rounded-full text-sm font-semibold transition ${
-              activeTab === "ongoing"
+            className={`flex-1 py-2 rounded-full text-sm font-semibold transition ${activeTab === "ongoing"
                 ? "bg-orange-500 text-black shadow-lg"
                 : "text-gray-400"
-            }`}
+              }`}
           >
             Ongoing
           </button>
 
           <button
             onClick={() => setActiveTab("past")}
-            className={`flex-1 py-2 rounded-full text-sm font-semibold transition ${
-              activeTab === "past"
+            className={`flex-1 py-2 rounded-full text-sm font-semibold transition ${activeTab === "past"
                 ? "bg-orange-500 text-black shadow-lg"
                 : "text-gray-400"
-            }`}
+              }`}
           >
             Past Orders
           </button>
@@ -180,6 +184,7 @@ export default function OrdersScreen() {
 
 /* ---------- OrderCard (presentational) ---------- */
 function OrderCard({ order, isPast, onReorder }) {
+  const navigate = useNavigate();
   const remainingMs = typeof order.remainingMs === "number" ? order.remainingMs : null;
 
   const formatMsToMMSS = (ms) => {
@@ -200,9 +205,6 @@ function OrderCard({ order, isPast, onReorder }) {
   return (
     <div className="bg-[#131313] rounded-3xl p-4 border border-[#2B2B2B] shadow-xl">
       <div className="flex items-center space-x-4">
-      
-   
-
         <div className="flex-1">
           <h2 className="text-lg font-semibold text-white">{order.restaurant}</h2>
           <p className="text-sm text-gray-400">Order ID: {order._id}</p>
@@ -229,13 +231,11 @@ function OrderCard({ order, isPast, onReorder }) {
 
       <p className="text-sm text-gray-300 mt-3">Items: {order.items?.map(i => i.name).join(", ")}</p>
       <p className="text-sm text-gray-300">Total Items: {order.totalItems}</p>
-      <p className="text-sm text-gray-300">Total Price: ${order.totalPrice?.toFixed(2)}</p>
+      <p className="text-sm text-gray-300">Total Price: Rs {order.totalPrice}</p>
 
       <button
-
-        onClick={isPast ? onReorder : () => {}}
+        onClick={isPast ? onReorder : () => navigate(`/track-order/${order._id}`)}
         className="w-full mt-4 py-2 bg-orange-500 text-black text-sm font-semibold rounded-2xl shadow-md"
-      
       >
         {isPast ? "Reorder" : "Track Order"}
       </button>

@@ -84,7 +84,7 @@ export default function Cart() {
             >
               <video
                 src={cartImages[cartItems.indexOf(item)]}
-                
+
                 className="w-16 h-16 rounded-xl object-cover"
               />
               <div className="flex-1">

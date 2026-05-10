@@ -16,7 +16,7 @@ const UserProfile = () => {
         withCredentials: true,
       });
       setUser(res.data.user);
-      console.log("User profile fetched:",user.avatar);
+      console.log("User profile fetched:", user.avatar);
     } catch (err) {
       console.error("Error fetching user profile:", err);
     } finally {
@@ -66,10 +66,15 @@ const UserProfile = () => {
   // Logout handler
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:3001/api/auth/user/logout", { withCredentials: true });
-      navigate("/user/login");
+      await axios.get("http://localhost:3001/api/auth/user/logout", {
+        withCredentials: true,
+      });
     } catch (err) {
       console.error("Logout failed:", err);
+    } finally {
+      // Clear local storage and redirect regardless of backend success
+      localStorage.removeItem("userId");
+      window.location.href = "/user/login";
     }
   };
 
@@ -81,7 +86,7 @@ const UserProfile = () => {
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Profile</h1>
-      
+
       </div>
 
       {/* Avatar */}
@@ -92,7 +97,7 @@ const UserProfile = () => {
               preview
                 ? preview
                 : user.avatar
-              
+
             }
             className="w-32 h-32 rounded-full object-cover"
             alt="profile"
@@ -106,7 +111,7 @@ const UserProfile = () => {
               accept="image/*"
               onChange={handleImageUpload}
               className="absolute inset-0 opacity-0 cursor-pointer"
-              
+
             />
           </label>
         </div>
@@ -130,7 +135,7 @@ const UserProfile = () => {
         <button onClick={() => navigate("/user/change-password")} className="w-full">
           <SettingRow icon="🔒" label="Change Password" />
         </button>
-       
+
         <button onClick={() => navigate("/user/notifications")} className="w-full">
           <SettingRow icon="🔔" label="Notifications" />
         </button>

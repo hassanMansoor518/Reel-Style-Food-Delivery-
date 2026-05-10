@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import {
   ArrowLeft,
@@ -15,11 +15,16 @@ import {
 
 const ShopProfile = () => {
   const { id } = useParams()
+  const navigate = useNavigate()
 
   const [profile, setProfile] = useState(null)
   const [foods, setFoods] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+
+  // Alert State
+  const [alertShow, setAlertShow] = useState(false)
+  const [alertMessage, setAlertMessage] = useState("")
 
   useEffect(() => {
     setLoading(true)
@@ -35,6 +40,31 @@ const ShopProfile = () => {
       .catch(() => setError('Failed to load restaurant'))
       .finally(() => setLoading(false))
   }, [id])
+
+  // Add To Cart Function
+  const addToCart = async (foodId) => {
+    const userId = localStorage.getItem("userId")
+    if (!userId) {
+      navigate("/user/login")
+      return
+    }
+
+    try {
+      await axios.post(
+        "http://localhost:3001/api/cart/add",
+        { userId, foodId },
+        { withCredentials: true }
+      );
+      setAlertMessage("Added to cart!")
+      setAlertShow(true)
+      setTimeout(() => setAlertShow(false), 2000)
+    } catch (err) {
+      console.error("Add to cart error:", err)
+      setAlertMessage("Failed to add to cart")
+      setAlertShow(true)
+      setTimeout(() => setAlertShow(false), 2000)
+    }
+  }
 
   if (loading) {
     return (
@@ -52,13 +82,26 @@ const ShopProfile = () => {
             Something went wrong
           </h2>
           <p className="text-[#8E8E93]">{error}</p>
+          <button
+            onClick={() => navigate(-1)}
+            className="mt-4 text-[#ff7b00] font-semibold"
+          >
+            Go Back
+          </button>
         </div>
       </div>
     )
   }
 
   return (
-    <main className="min-h-screen bg-[#0D0D0D] text-white pb-32">
+    <main className="min-h-screen bg-[#0D0D0D] text-white pb-32 no-scrollbar">
+      {/* ALERT POPUP */}
+      {alertShow && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-[100] bg-[#ff7b00] text-white px-6 py-3 rounded-full shadow-2xl font-bold animate-bounce">
+          {alertMessage}
+        </div>
+      )}
+
       {/* HEADER IMAGE */}
       <section className="relative h-[260px] overflow-hidden">
         <img
@@ -72,13 +115,14 @@ const ShopProfile = () => {
 
         {/* TOP ACTIONS */}
         <div className="absolute top-0 left-0 w-full flex items-center justify-between px-5 pt-6">
-          <button className="w-11 h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/10">
+          <button
+            onClick={() => navigate(-1)}
+            className="w-11 h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/10 active:scale-95 transition"
+          >
             <ArrowLeft size={20} />
           </button>
 
-          <button className="w-11 h-11 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center border border-white/10">
-            <Share2 size={20} />
-          </button>
+
         </div>
       </section>
 
@@ -104,11 +148,11 @@ const ShopProfile = () => {
               </div>
 
               <h1 className="text-[28px] font-bold leading-tight">
-                {profile?.contactName}
+                {profile?.fullName || profile?.contactName}
               </h1>
 
               <p className="text-[#8E8E93] mt-1 text-sm">
-                Premium restaurant & fast delivery
+                {profile?.address}
               </p>
             </div>
           </div>
@@ -134,7 +178,7 @@ const ShopProfile = () => {
                 className="mx-auto mb-2 text-[#ff7b00]"
               />
               <p className="text-white font-semibold text-sm">
-                $4.99
+                Free
               </p>
               <p className="text-[#8E8E93] text-xs mt-1">
                 Fee
@@ -158,19 +202,7 @@ const ShopProfile = () => {
           {/* TABS */}
           <div className="flex gap-3 mt-6 overflow-x-auto no-scrollbar">
             <button className="px-5 py-2 rounded-full bg-[#ff7b00] text-black text-sm font-semibold whitespace-nowrap shadow-[0_0_20px_rgba(255,123,0,0.35)]">
-              Popular
-            </button>
-
-            <button className="px-5 py-2 rounded-full bg-[#1A1A1A] text-[#8E8E93] text-sm font-medium whitespace-nowrap border border-white/5">
-              Main Course
-            </button>
-
-            <button className="px-5 py-2 rounded-full bg-[#1A1A1A] text-[#8E8E93] text-sm font-medium whitespace-nowrap border border-white/5">
-              Sides
-            </button>
-
-            <button className="px-5 py-2 rounded-full bg-[#1A1A1A] text-[#8E8E93] text-sm font-medium whitespace-nowrap border border-white/5">
-              Drinks
+              Menu Items ({foods.length})
             </button>
           </div>
         </div>
@@ -192,47 +224,54 @@ const ShopProfile = () => {
         </div>
 
         <div className="space-y-4">
-          {foods.map((food, index) => (
-            <div
-              key={food._id || index}
-              className="bg-[#161616] border border-white/5 rounded-[28px] p-4 flex items-center gap-4 hover:border-[#ff7b00]/30 transition-all duration-300"
-            >
-              {/* FOOD INFO */}
-              <div className="flex-1">
-                <h3 className="text-lg font-bold leading-tight">
-                  {food.title || `Food Item ${index + 1}`}
-                </h3>
+          {foods.length > 0 ? (
+            foods.map((food, index) => (
+              <div
+                key={food._id || index}
+                className="bg-[#161616] border border-white/5 rounded-[28px] p-4 flex items-center gap-4 hover:border-[#ff7b00]/30 transition-all duration-300"
+              >
+                {/* FOOD INFO */}
+                <div className="flex-1">
+                  <h3 className="text-lg font-bold leading-tight">
+                    {food.name}
+                  </h3>
 
-                <p className="text-[#8E8E93] text-sm mt-2 line-clamp-2">
-                  Delicious premium quality food made with
-                  fresh ingredients and rich flavors.
-                </p>
+                  <p className="text-[#8E8E93] text-sm mt-2 line-clamp-2">
+                    {food.description}
+                  </p>
 
-                <p className="text-[#ff7b00] text-xl font-bold mt-4">
-                  ${food.price || '24.00'}
-                </p>
+                  <p className="text-[#ff7b00] text-xl font-bold mt-4">
+                    Rs. {food.price}
+                  </p>
+                </div>
+
+                {/* IMAGE / VIDEO */}
+                <div className="relative">
+                  <video
+                    src={food.video}
+                    muted
+                    autoPlay
+                    loop
+                    playsInline
+                    className="w-28 h-28 rounded-[24px] object-cover"
+                  />
+
+                  <button
+                    onClick={() => addToCart(food._id)}
+                    className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-[#222222] border border-white/10 flex items-center justify-center hover:bg-[#ff7b00] hover:text-black transition-all duration-300 active:scale-90"
+                  >
+                    <Plus size={18} />
+                  </button>
+                </div>
               </div>
-
-              {/* IMAGE / VIDEO */}
-              <div className="relative">
-                <video
-                  src={food.video}
-                  muted
-                  autoPlay
-                  loop
-                  playsInline
-                  className="w-28 h-28 rounded-[24px] object-cover"
-                />
-
-                <button className="absolute -bottom-2 -right-2 w-10 h-10 rounded-full bg-[#222222] border border-white/10 flex items-center justify-center hover:bg-[#ff7b00] hover:text-black transition-all duration-300">
-                  <Plus size={18} />
-                </button>
-              </div>
+            ))
+          ) : (
+            <div className="py-20 text-center text-[#8E8E93]">
+              No items available at this restaurant.
             </div>
-          ))}
+          )}
         </div>
       </section>
-
 
     </main>
   )

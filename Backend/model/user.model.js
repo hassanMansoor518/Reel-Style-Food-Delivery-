@@ -23,10 +23,12 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: true
    },
-   avatar: {
-  type: String,
-  default: null,
-},
+    lat: { type: Number, default: 24.9107 },
+    lng: { type: Number, default: 67.0311 },
+    avatar: {
+      type: String,
+      default: null,
+    },
 
 }, 
   

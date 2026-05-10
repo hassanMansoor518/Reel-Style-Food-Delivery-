@@ -33,9 +33,9 @@ const AppRoutes = () => {
         <Router>
             <Routes>
                 {/* Redirect based on Auth Status */}
-                <Route 
-                    path="/" 
-                    element={isAuthenticated ? <Home /> : <Navigate to="/user/login" replace />} 
+                <Route
+                    path="/"
+                    element={isAuthenticated ? <Home /> : <Navigate to="/user/login" replace />}
                 />
 
                 <Route path="/profile/:id" element={<ShopProfile />} />
@@ -57,33 +57,33 @@ const AppRoutes = () => {
 
                 {/*Order Pages */}
 
-                <Route path='/order-confirmation' element={<OrderConfirmation />} />
+                <Route path='/order-confirmation/:orderId' element={<OrderConfirmation />} />
                 <Route path='/order-failed' element={<OrderFailedScreen />} />
 
                 <Route path='/payment-order' element={<OrderAndPayment />} />
                 <Route path="/processing-order/:orderId" element={<ProcessingOrder />} />
 
                 <Route path='/orders' element={<Order />} />
-                <Route path='/track-order' element={<TrackOrderScreen />} />
+                <Route path='/track-order/:orderId' element={<TrackOrderScreen />} />
                 <Route path='/otp/:orderId' element={<OtpScreen />} />
 
 
                 {/* Auth Routes */}
-                <Route 
-                    path="/user/register" 
-                    element={!isAuthenticated ? <UserRegister /> : <Navigate to="/" replace />} 
+                <Route
+                    path="/user/register"
+                    element={!isAuthenticated ? <UserRegister /> : <Navigate to="/" replace />}
                 />
-                <Route 
-                    path="/user/login" 
-                    element={!isAuthenticated ? <UserLogin /> : <Navigate to="/" replace />} 
+                <Route
+                    path="/user/login"
+                    element={!isAuthenticated ? <UserLogin /> : <Navigate to="/" replace />}
                 />
-                <Route 
-                    path="/food-partner/register" 
-                    element={!isAuthenticated ? <FoodPartnerRegister /> : <Navigate to="/" replace />} 
+                <Route
+                    path="/food-partner/register"
+                    element={!isAuthenticated ? <FoodPartnerRegister /> : <Navigate to="/" replace />}
                 />
-                <Route 
-                    path="/food-partner/login" 
-                    element={!isAuthenticated ? <FoodPartnerLogin /> : <Navigate to="/" replace />} 
+                <Route
+                    path="/food-partner/login"
+                    element={!isAuthenticated ? <FoodPartnerLogin /> : <Navigate to="/" replace />}
                 />
                 <Route path='/user/login-first' element={<LoginFirstModal />} />
 

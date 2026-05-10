@@ -1,6 +1,8 @@
 const Order = require("../model/order.model");
 const Payment = require("../model/payment.model");
-const Cart = require("../model/cart.model");   // ⭐ cart model added
+const Cart = require("../model/cart.model");
+const Notification = require("../model/notification.model");
+const Food = require("../model/food.model");
 
 // Save payment & create order
 exports.savePayment = async (req, res) => {
@@ -31,14 +33,30 @@ exports.savePayment = async (req, res) => {
       }
     }
 
+    // FIND PARTNER FROM ITEMS
+    let partnerId = null;
+    if (items && items.length > 0) {
+      const firstItem = await Food.findOne({ name: items[0].name });
+      if (firstItem) partnerId = firstItem.foodPartner;
+    }
+
     // CREATE ORDER
     const order = await Order.create({
       user: req.user._id,
+      partner: partnerId,
       items,
       totalPrice,
       paymentMethod,
       cardDetails: paymentMethod === "card" ? cardDetails : null,
       status: "pending",
+    });
+
+    // CREATE NOTIFICATION
+    await Notification.create({
+      userId: req.user._id,
+      title: "Order Placed",
+      description: `Your order #${order._id.toString().slice(-6)} has been placed successfully.`,
+      type: "success"
     });
 
     // SAVE PAYMENT DETAILS

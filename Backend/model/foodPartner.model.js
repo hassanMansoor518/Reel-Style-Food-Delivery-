@@ -26,6 +26,8 @@ const partnerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    lat: { type: Number, default: 24.9372 },
+    lng: { type: Number, default: 67.0423 },
 }, {
     timestamps: true
 })

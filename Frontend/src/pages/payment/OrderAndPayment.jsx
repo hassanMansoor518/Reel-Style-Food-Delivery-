@@ -82,8 +82,8 @@ export default function OrderAndPayment() {
         },
         { withCredentials: true }
       );
-       
-   
+
+
       navigate(`/otp/${res.data.orderId}`);
 
       //navigate(`/processing-order/${res.data.orderId}`);
