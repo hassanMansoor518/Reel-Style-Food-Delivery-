@@ -52,7 +52,7 @@ export default function OrdersScreen() {
     let mounted = true;
     const fetchOrders = async () => {
       try {
-        const res = await fetch("http://localhost:3001/api/payment/orders", {
+        const res = await fetch("${import.meta.env.VITE_API_URL}/api/payment/orders", {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -118,7 +118,7 @@ export default function OrdersScreen() {
   const handleReorder = async (order) => {
     try {
       // Example API call to add items to cart
-      await fetch("http://localhost:3001/api/cart/add-multiple", {
+      await fetch("${import.meta.env.VITE_API_URL}/api/cart/add-multiple", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",

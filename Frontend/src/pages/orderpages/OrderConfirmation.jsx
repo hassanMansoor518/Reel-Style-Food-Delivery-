@@ -18,7 +18,7 @@ export default function RealisticOrderScreen() {
 
   const fetchOrderDetails = async () => {
     try {
-      const res = await axios.get(`http://localhost:3001/api/payment/details/${orderId}`, {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment/details/${orderId}`, {
         withCredentials: true,
       });
       if (res.data.success) {

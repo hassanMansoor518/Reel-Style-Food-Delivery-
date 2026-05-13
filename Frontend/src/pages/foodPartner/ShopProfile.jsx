@@ -30,7 +30,7 @@ const ShopProfile = () => {
     setLoading(true)
 
     axios
-      .get(`http://localhost:3001/api/food-partner/profile/${id}`, {
+      .get(`${import.meta.env.VITE_API_URL}/api/food-partner/profile/${id}`, {
         withCredentials: true
       })
       .then((response) => {
@@ -51,7 +51,7 @@ const ShopProfile = () => {
 
     try {
       await axios.post(
-        "http://localhost:3001/api/cart/add",
+        "${import.meta.env.VITE_API_URL}/api/cart/add",
         { userId, foodId },
         { withCredentials: true }
       );

@@ -41,7 +41,7 @@ const FoodPartnerProfile = () => {
   const fetchProfile = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(`http://localhost:3001/api/food-partner/${id}`, { withCredentials: true });
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/food-partner/${id}`, { withCredentials: true });
       setProfile(res.data.foodPartner);
       setEditFormData({
         contactName: res.data.foodPartner.contactName || "",
@@ -72,7 +72,7 @@ const FoodPartnerProfile = () => {
   const handleDelete = async (foodId) => {
     if (window.confirm("Are you sure you want to delete this food item?")) {
       try {
-        await axios.delete(`http://localhost:3001/api/food/${foodId}`, { withCredentials: true });
+        await axios.delete(`${import.meta.env.VITE_API_URL}/api/food/${foodId}`, { withCredentials: true });
         fetchProfile(); // Refresh food items
       } catch (err) {
         console.log(err);
@@ -83,7 +83,7 @@ const FoodPartnerProfile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get("http://localhost:3001/api/auth/partner/logout", {
+      await axios.get("${import.meta.env.VITE_API_URL}/api/auth/partner/logout", {
         withCredentials: true,
       });
     } catch (err) {
@@ -98,7 +98,7 @@ const FoodPartnerProfile = () => {
     e.preventDefault();
     setIsUpdating(true);
     try {
-      await axios.put(`http://localhost:3001/api/food-partner/update/${id}`, editFormData, {
+      await axios.put(`${import.meta.env.VITE_API_URL}/api/food-partner/update/${id}`, editFormData, {
         withCredentials: true,
       });
       setIsEditModalOpen(false);

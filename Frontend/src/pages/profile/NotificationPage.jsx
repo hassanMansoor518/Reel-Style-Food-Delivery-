@@ -30,7 +30,7 @@ export default function Notifications() {
 
   const fetchNotifications = async () => {
     try {
-      const res = await axios.get("http://localhost:3001/api/notifications", {
+      const res = await axios.get("${import.meta.env.VITE_API_URL}/api/notifications", {
         withCredentials: true,
       });
       if (res.data.success) {
@@ -45,7 +45,7 @@ export default function Notifications() {
 
   const deleteNotification = async (id) => {
     try {
-      await axios.delete(`http://localhost:3001/api/notifications/${id}`, {
+      await axios.delete(`${import.meta.env.VITE_API_URL}/api/notifications/${id}`, {
         withCredentials: true,
       });
       setNotifications(notifications.filter((n) => n._id !== id));

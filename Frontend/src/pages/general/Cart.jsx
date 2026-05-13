@@ -4,7 +4,7 @@ import { FiArrowLeft, FiPlus, FiMinus, FiTrash2 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import BottomNavbar from "../../components/BottomNavbar";
 
-const API = "http://localhost:3001/api";
+const API = "${import.meta.env.VITE_API_URL}/api";
 axios.defaults.withCredentials = true;
 
 export default function Cart() {

@@ -14,7 +14,7 @@ const FoodPartnerRegister = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/auth/partner/register",
+        `${import.meta.env.VITE_API_URL}/api/auth/partner/register`,
         {
           restaurantName: restaurantName.value,
           contactName: contactName.value,

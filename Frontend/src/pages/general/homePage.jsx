@@ -41,7 +41,7 @@ function Home() {
   // Load Food Items
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/food/", { withCredentials: true })
+      .get(`${import.meta.env.VITE_API_URL}/api/food/`, { withCredentials: true })
       .then((response) => {
         setVideos(response.data.foodItems);
         setFilteredVideos(response.data.foodItems);
@@ -71,7 +71,7 @@ function Home() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/cart/add",
+        "${import.meta.env.VITE_API_URL}/api/cart/add",
         { userId, foodId },
         { withCredentials: true }
       );

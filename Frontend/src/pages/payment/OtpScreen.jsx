@@ -28,7 +28,7 @@ export default function OtpScreen() {
       const payload = { orderId, email };
 
       const res = await axios.post(
-        "http://localhost:3001/api/order/send-otp",
+        "${import.meta.env.VITE_API_URL}/api/order/send-otp",
         payload,
         { withCredentials: true }
       );
@@ -101,7 +101,7 @@ export default function OtpScreen() {
       const payload = { otp: code, orderId, email };
 
       const res = await axios.post(
-        "http://localhost:3001/api/order/verify-otp",
+        "${import.meta.env.VITE_API_URL}/api/order/verify-otp",
         payload,
         { withCredentials: true }
       );

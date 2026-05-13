@@ -29,7 +29,7 @@ export default function ProcessingOrder() {
     const interval = setInterval(async () => {
       try {
         const res = await axios.get(
-          `http://localhost:3001/api/payment/status/${orderId}`,
+          `${import.meta.env.VITE_API_URL}/api/payment/status/${orderId}`,
           { withCredentials: true }
         );
 

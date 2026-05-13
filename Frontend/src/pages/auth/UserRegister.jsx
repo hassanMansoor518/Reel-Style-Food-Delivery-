@@ -19,7 +19,7 @@ const UserRegister = () => {
     const Address = e.target.Address.value;
 
     const res = await axios.post(
-      "http://localhost:3001/api/auth/user/register",
+      `${import.meta.env.VITE_API_URL}/api/auth/user/register`,
       { fullName, email, password, PhoneNumber, Address },
       { withCredentials: true }
     );

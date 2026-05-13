@@ -23,7 +23,7 @@ const UploadNewFood = ({ editMode }) => {
       setLoading(true);
 
       axios
-        .get(`http://localhost:3001/api/food/${id}`, {
+        .get(`${import.meta.env.VITE_API_URL}/api/food/${id}`, {
           withCredentials: true,
         })
         .then((res) => {
@@ -85,7 +85,7 @@ const UploadNewFood = ({ editMode }) => {
 
       if (editMode && id) {
         await axios.put(
-          `http://localhost:3001/api/food/${id}`,
+          `${import.meta.env.VITE_API_URL}/api/food/${id}`,
           formData,
           {
             withCredentials: true,
@@ -98,7 +98,7 @@ const UploadNewFood = ({ editMode }) => {
         alert("Food item updated successfully!");
       } else {
         const response = await axios.post(
-          `http://localhost:3001/api/food`,
+          `${import.meta.env.VITE_API_URL}/api/food`,
           formData,
           {
             withCredentials: true,

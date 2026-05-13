@@ -18,7 +18,7 @@ const FoodPartnerLogin = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/auth/partner/login",
+        `${import.meta.env.VITE_API_URL}/api/auth/partner/login`,
         { email, password },
         { withCredentials: true }
       );

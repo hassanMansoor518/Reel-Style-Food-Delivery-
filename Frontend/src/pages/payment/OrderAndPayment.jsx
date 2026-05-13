@@ -69,7 +69,7 @@ export default function OrderAndPayment() {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://localhost:3001/api/payment/save-payment",
+        "${import.meta.env.VITE_API_URL}/api/payment/save-payment",
         {
           items: cartItems.map((item) => ({
             name: item.name,

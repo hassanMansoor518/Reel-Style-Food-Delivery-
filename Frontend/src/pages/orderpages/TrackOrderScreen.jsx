@@ -102,7 +102,7 @@ export default function TrackOrderScreen() {
 
   // --- Socket.IO Lifecycle ---
   useEffect(() => {
-    socketRef.current = io("http://localhost:3001", {
+    socketRef.current = io("${import.meta.env.VITE_API_URL}", {
       withCredentials: true,
       transports: ["websocket"]
     });
@@ -135,7 +135,7 @@ export default function TrackOrderScreen() {
   useEffect(() => {
     const fetchDetails = async () => {
       try {
-        const res = await axios.get(`http://localhost:3001/api/payment/details/${orderId}`, {
+        const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/payment/details/${orderId}`, {
           withCredentials: true,
         });
         if (res.data.success) {
