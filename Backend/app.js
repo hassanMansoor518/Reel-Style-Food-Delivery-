@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
+const connectDB = require("./db/db");
 
 const authRoutes = require("./routes/auth.routes");
 const foodRoutes = require("./routes/food.routes");
@@ -12,14 +13,15 @@ const notificationRoutes = require("./routes/notification.routes");
 
 const app = express();
 
-
 const corsOptions = {
   origin: function (origin, callback) {
     const allowed = [
       "http://localhost:5173",
       "https://reel-style-food-delivery-cmeg.vercel.app",
     ];
-    if (!origin || allowed.includes(origin)) {
+    const isVercelPreview = origin && /https:\/\/reel-style-food-delivery[\w-]*\.vercel\.app/.test(origin);
+
+    if (!origin || allowed.includes(origin) || isVercelPreview) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -33,9 +35,13 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options(/.*/, cors(corsOptions));
 
-
 app.use(cookieParser());
 app.use(express.json());
+
+app.use(async (req, res, next) => {
+  await connectDB();
+  next();
+})
 
 app.use("/api/auth", authRoutes);
 app.use("/api/food", foodRoutes);
