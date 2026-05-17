@@ -12,18 +12,28 @@ const notificationRoutes = require("./routes/notification.routes");
 
 const app = express();
 
-app.use(
-  cors({
-    origin: [
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    const allowed = [
       "http://localhost:5173",
       "https://reel-style-food-delivery-cmeg.vercel.app",
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
-  })
-);
-app.options(/.*/, cors());
+    ];
+    if (!origin || allowed.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+app.options(/.*/, cors(corsOptions));
+
+
 app.use(cookieParser());
 app.use(express.json());
 
