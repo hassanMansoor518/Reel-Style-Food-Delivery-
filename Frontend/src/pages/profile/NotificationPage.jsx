@@ -30,7 +30,7 @@ export default function Notifications() {
 
   const fetchNotifications = async () => {
     try {
-      const res = await axios.get("${import.meta.env.VITE_API_URL}/api/notifications", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/notifications`, {
         withCredentials: true,
       });
       if (res.data.success) {

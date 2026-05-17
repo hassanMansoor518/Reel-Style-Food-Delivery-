@@ -12,7 +12,7 @@ const UserProfile = () => {
   // Fetch user profile from backend
   const fetchUserProfile = async () => {
     try {
-      const res = await axios.get("${import.meta.env.VITE_API_URL}/api/auth/user/profile", {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/user/profile`, {
         withCredentials: true,
       });
       setUser(res.data.user);
@@ -41,7 +41,7 @@ const UserProfile = () => {
 
     try {
       const res = await axios.post(
-        "${import.meta.env.VITE_API_URL}/api/auth/user/upload-avatar",
+        `${import.meta.env.VITE_API_URL}/api/auth/user/upload-avatar`,
         formData,
         {
           withCredentials: true,
@@ -66,7 +66,7 @@ const UserProfile = () => {
   // Logout handler
   const handleLogout = async () => {
     try {
-      await axios.get("${import.meta.env.VITE_API_URL}/api/auth/user/logout", {
+      await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/user/logout`, {
         withCredentials: true,
       });
     } catch (err) {

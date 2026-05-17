@@ -102,7 +102,7 @@ export default function TrackOrderScreen() {
 
   // --- Socket.IO Lifecycle ---
   useEffect(() => {
-    socketRef.current = io("${import.meta.env.VITE_API_URL}", {
+    socketRef.current = io(`${import.meta.env.VITE_API_URL}`, {
       withCredentials: true,
       transports: ["websocket"]
     });

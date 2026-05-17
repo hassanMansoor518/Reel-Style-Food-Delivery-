@@ -71,7 +71,7 @@ function Home() {
 
     try {
       const res = await axios.post(
-        "${import.meta.env.VITE_API_URL}/api/cart/add",
+        `${import.meta.env.VITE_API_URL}/api/cart/add`,
         { userId, foodId },
         { withCredentials: true }
       );
@@ -99,70 +99,70 @@ function Home() {
         {filteredVideos.length > 0 ? (
           filteredVideos.map((video, index) => (
             <div key={video._id} className="relative h-[calc(100vh-112px)] w-full snap-start">
-            <video
-              ref={(el) => (videoRefs.current[index] = el)}
-              src={video.video}
-              className="h-full w-full object-cover"
-              loop
-              muted
-              playsInline
-              autoPlay
-            />
+              <video
+                ref={(el) => (videoRefs.current[index] = el)}
+                src={video.video}
+                className="h-full w-full object-cover"
+                loop
+                muted
+                playsInline
+                autoPlay
+              />
 
-            <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-transparent"></div>
+              <div className="absolute bottom-0 left-0 w-full h-40 bg-gradient-to-t from-black to-transparent"></div>
 
-            <div className="absolute bottom-6 left-0 w-full px-8 text-white z-10">
-              <h2 className="text-xl font-bold drop-shadow-lg">
-                <div className="w-[80%]">
-                  {video.description && (
-                    <span className="block text-2xl font-bold mt-1">{video.name}</span>
+              <div className="absolute bottom-6 left-0 w-full px-8 text-white z-10">
+                <h2 className="text-xl font-bold drop-shadow-lg">
+                  <div className="w-[80%]">
+                    {video.description && (
+                      <span className="block text-2xl font-bold mt-1">{video.name}</span>
+                    )}
+                  </div>
+                  {video.price && (
+                    <span className="block text-xl text-orange-400 font-bold mt-1">
+                      Price: {video.price}
+                    </span>
                   )}
-                </div>
-                {video.price && (
-                  <span className="block text-xl text-orange-400 font-bold mt-1">
-                    Price: {video.price}
-                  </span>
-                )}
-                <div className="flex mt-2">
-                  <div className="bg-black/50 rounded-full w-max items-center p-3 text-2xl">
-                    {video.foodPartner && (
-                      <button onClick={() => navigate(`/profile/${video.foodPartner._id}`)}>
-                        <IoStorefrontOutline />
-                      </button>
-                    )}
-                  </div>
+                  <div className="flex mt-2">
+                    <div className="bg-black/50 rounded-full w-max items-center p-3 text-2xl">
+                      {video.foodPartner && (
+                        <button onClick={() => navigate(`/profile/${video.foodPartner._id}`)}>
+                          <IoStorefrontOutline />
+                        </button>
+                      )}
+                    </div>
 
-                  <div className="ml-2">
-                    {video.foodPartner && (
-                      <span className="block text-sm font-normal mt-1">
-                        by {video.foodPartner.contactName}
-                      </span>
-                    )}
-                    {video.rating && (
-                      <span className="block text-sm font-normal mt-1">
-                        Rating: {video.rating}⭐
-                      </span>
-                    )}
+                    <div className="ml-2">
+                      {video.foodPartner && (
+                        <span className="block text-sm font-normal mt-1">
+                          by {video.foodPartner.contactName}
+                        </span>
+                      )}
+                      {video.rating && (
+                        <span className="block text-sm font-normal mt-1">
+                          Rating: {video.rating}⭐
+                        </span>
+                      )}
+                    </div>
                   </div>
-                </div>
-              </h2>
+                </h2>
+              </div>
+
+              <button
+                className="absolute bottom-12 right-4 bg-orange-500 text-white p-4 rounded-full shadow-xl text-xl active:scale-[0.99] z-50 transition shadow-[0_8px_25px_rgba(255,123,0,0.3)]"
+                onClick={() => addToCart(video._id)}
+              >
+                🛒
+              </button>
             </div>
-
-            <button
-              className="absolute bottom-12 right-4 bg-orange-500 text-white p-4 rounded-full shadow-xl text-xl active:scale-[0.99] z-50 transition shadow-[0_8px_25px_rgba(255,123,0,0.3)]"
-              onClick={() => addToCart(video._id)}
-            >
-              🛒
-            </button>
+          ))
+        ) : (
+          <div className="flex flex-col items-center justify-center h-full text-[#8E8E93]">
+            <FiSearch size={50} className="mb-4 opacity-20" />
+            <p className="text-lg font-medium">No results found for &quot;{searchQuery}&quot;</p>
+            <p className="text-sm opacity-60">Try searching for something else!</p>
           </div>
-        ))
-      ) : (
-        <div className="flex flex-col items-center justify-center h-full text-[#8E8E93]">
-          <FiSearch size={50} className="mb-4 opacity-20" />
-          <p className="text-lg font-medium">No results found for &quot;{searchQuery}&quot;</p>
-          <p className="text-sm opacity-60">Try searching for something else!</p>
-        </div>
-      )}
+        )}
       </div>
 
       {/* BOTTOM NAVBAR */}

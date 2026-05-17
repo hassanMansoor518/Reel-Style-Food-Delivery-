@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { FiArrowLeft } from "react-icons/fi";
-import { IoEyeOffOutline,IoEyeOutline } from "react-icons/io5";
+import { IoEyeOffOutline, IoEyeOutline } from "react-icons/io5";
 const ChangePassword = () => {
   const navigate = useNavigate();
   const [currentPassword, setCurrentPassword] = useState("");
@@ -33,7 +33,7 @@ const ChangePassword = () => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "${import.meta.env.VITE_API_URL}/api/auth/user/change-password",
+        `${import.meta.env.VITE_API_URL}/api/auth/user/change-password`,
         { oldPassword: currentPassword, newPassword },
         { withCredentials: true }
       );
@@ -79,7 +79,7 @@ const ChangePassword = () => {
               }
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
             >
-             {showPassword.current ? <IoEyeOutline className="text-2xl" /> : <IoEyeOffOutline className="text-2xl" />}
+              {showPassword.current ? <IoEyeOutline className="text-2xl" /> : <IoEyeOffOutline className="text-2xl" />}
             </button>
           </div>
 
@@ -120,7 +120,7 @@ const ChangePassword = () => {
               }
               className="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400"
             >
-              {showPassword.confirm ?  <IoEyeOutline className="text-2xl" /> : <IoEyeOffOutline className="text-2xl" />}
+              {showPassword.confirm ? <IoEyeOutline className="text-2xl" /> : <IoEyeOffOutline className="text-2xl" />}
             </button>
           </div>
 

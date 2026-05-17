@@ -83,7 +83,7 @@ const FoodPartnerProfile = () => {
 
   const handleLogout = async () => {
     try {
-      await axios.get("${import.meta.env.VITE_API_URL}/api/auth/partner/logout", {
+      await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/partner/logout`, {
         withCredentials: true,
       });
     } catch (err) {

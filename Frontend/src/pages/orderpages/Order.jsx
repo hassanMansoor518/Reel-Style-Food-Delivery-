@@ -52,7 +52,7 @@ export default function OrdersScreen() {
     let mounted = true;
     const fetchOrders = async () => {
       try {
-        const res = await fetch("${import.meta.env.VITE_API_URL}/api/payment/orders", {
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/api/payment/orders`, {
           method: "GET",
           headers: { "Content-Type": "application/json" },
           credentials: "include",
@@ -118,7 +118,7 @@ export default function OrdersScreen() {
   const handleReorder = async (order) => {
     try {
       // Example API call to add items to cart
-      await fetch("${import.meta.env.VITE_API_URL}/api/cart/add-multiple", {
+      await fetch(`${import.meta.env.VITE_API_URL}/api/cart/add-multiple`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -142,8 +142,8 @@ export default function OrdersScreen() {
           <button
             onClick={() => setActiveTab("ongoing")}
             className={`flex-1 py-2 rounded-full text-sm font-semibold transition ${activeTab === "ongoing"
-                ? "bg-orange-500 text-black shadow-lg"
-                : "text-gray-400"
+              ? "bg-orange-500 text-black shadow-lg"
+              : "text-gray-400"
               }`}
           >
             Ongoing
@@ -152,8 +152,8 @@ export default function OrdersScreen() {
           <button
             onClick={() => setActiveTab("past")}
             className={`flex-1 py-2 rounded-full text-sm font-semibold transition ${activeTab === "past"
-                ? "bg-orange-500 text-black shadow-lg"
-                : "text-gray-400"
+              ? "bg-orange-500 text-black shadow-lg"
+              : "text-gray-400"
               }`}
           >
             Past Orders
