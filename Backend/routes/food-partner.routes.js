@@ -4,13 +4,13 @@ const foodPartnerController = require("../controller/foodPartner.controller")
 const router = express.Router();
 
 
-router.get("/:id",
-    authMiddleware.foodPartnerMiddleware,
-   
+router.get("/profile/:id",
+    authMiddleware.userMiddleware,
     foodPartnerController.getFoodPartnerById
 )
-router.get("/profile/:id",
-     authMiddleware.userMiddleware,
+
+router.get("/:id",
+    authMiddleware.foodPartnerMiddleware,
     foodPartnerController.getFoodPartnerById
 )
 
