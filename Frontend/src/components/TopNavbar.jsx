@@ -10,7 +10,7 @@ function TopNavbar({ onSearch }) {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const res = await axios.get("${import.meta.env.VITE_API_URL}/api/auth/user/profile", { withCredentials: true });
+                const res = await axios.get(`${import.meta.env.VITE_API_URL}/api/auth/user/profile`, { withCredentials: true });
                 setUser(res.data.user);
             } catch (err) {
                 console.error("Error fetching user profile:", err);
